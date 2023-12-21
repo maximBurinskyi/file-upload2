@@ -64,7 +64,19 @@ export function DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    {cell.column.id === 'timestamp' ? (
+                      <div className="flex flex-col">
+                        <div className="text-sm">
+                          {(cell.getValue() as Date).toLocaleDateString()}
+                        </div>
+
+                        <div className="text-xs text-gray-500">
+                          {(cell.getValue() as Date).toLocaleTimeString()}
+                        </div>
+                      </div>
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
                   </TableCell>
                 ))}
                 <TableCell key={(row.original as FileType).id}>
